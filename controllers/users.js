@@ -4,12 +4,12 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
 import crypto from "crypto"
 
-// DENERATE TOKEN
+// GENERATE TOKEN
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d"})
 
 }
-// GET USER
+// GET  A SINGLE USER
 export const registerUser = asyncHandler(async (req, res) => {
 	const { email, password, username } = req.body
 	if (!email || !username || !password) {
