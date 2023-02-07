@@ -1,8 +1,10 @@
 import User from "../models/userModel.js"
+import Token from "../models/tokenModel.js"
 import asyncHandler from "express-async-handler"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
 import crypto from "crypto"
+import { sendEmail } from "../utilities/sendEmail.js"
 
 // GENERATE TOKEN
 const generateToken = (id) => {
@@ -161,4 +163,53 @@ export const changePassword = asyncHandler(async(req, res) => {
      } else {
         throw new Error("Old password is incorrect")
      }
+})
+// FORGOT PASSWORD
+export const forgotPassword = asyncHandler(async(req, res) => {
+	const { email } = req.body
+	const user = await User.findOne({ email }) 
+	if (!user) {
+		res.status(400)
+		throw new Error("There is no user with this email")
+	} 
+	// delete token if it exixts
+	const token = await Token.findOne({userId: user._id})
+	if (token) {
+		await Token.deleteOne()
+	}
+	// create Token
+	let resetToken = crypto.randomBytes(32).toString("hex") + user._id
+	 //hash token before saving 
+    const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex")
+	// console.log(resetToken)
+	await new Token({
+        userId: user._id,
+        token: hashedToken,
+        createdAt: Date.now(),
+        expiresAt: Date.now() + 30 * (60 * 1000) //30 mins
+    }).save()
+    // res.send({token: hashedToken})
+    // RESET URL
+    const resetUrl = `${process.env.CLIENT_URL}/resetPassword/${resetToken}`
+    // EMAIL MSSG
+    const message = `
+        <h2>Hello ${user.username}</h2>
+        <P>Please use the link below to reset your password</P>
+        <p>This link is valid for 30 minutes only.</p>
+        <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+        <p>Kind Regards</p>
+        <p>Com Shop Team</p>
+    `
+    const subject = "Password Reset Request"
+    const receiver = user.email
+    const sender = process.env.USER_EMAIL
+
+    try {
+        await sendEmail(subject, message, receiver, sender)
+        res.status(200).json({ success: true, message: "Reset email sent"} )
+    } catch (err) {
+        res.status(500)
+        // throw new Error("Email not sent please try again")
+        console.log({err})
+    }
 })
