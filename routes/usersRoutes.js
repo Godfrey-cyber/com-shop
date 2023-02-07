@@ -1,6 +1,6 @@
 import express from "express"
 const router = express.Router()
-import { loginStatus, getUser, getAllUsers, updateUser, deleteUser, changePassword, forgotPassword } from "../controllers/users.js"
+import { loginStatus, getUser, getAllUsers, updateUser, deleteUser, changePassword, forgotPassword, resetPassword } from "../controllers/users.js"
 import { protect } from "../middleware/authMiddleware.js"
 
 router.get("/fetchUser", protect, getUser)
@@ -10,6 +10,6 @@ router.get("/loggedin", loginStatus)
 router.delete("/delete", protect, deleteUser)
 router.patch("/changePassword", protect, changePassword)
 router.patch("/forgotPassword", forgotPassword)
-// router.put("/resetPassword/:resetToken", resetPassword)
+router.put("/resetPassword/:resetToken", resetPassword)
 
 export default router
