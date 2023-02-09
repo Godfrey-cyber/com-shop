@@ -8,13 +8,14 @@ const UserSchema = new mongoose.Schema({
 	password: { type: String, required: true },
 	email: { type: String, required: true, unique: true },
 	isAdmin: { type: Boolean, default: false },
-	image: { type: String },
+	image: { type: String, default: "" },
 	phone: { type: String, default: "+254..." },
-	bio: { type: String, default: "Hey I am a user", maxlength: [250, "Bio must not be greater than 250 characters"] }
-	// password: { type: String, reduired: true }
+	// productId: { type: [String] },
+	vendorName: { type: String, default: "Vendor" },
+	bio: { type: String, default: "Hey I am a user", maxlength: [250, "Bio must not be less than 250 characters"] }
 }, { timestamps: true })
 
-//encrypt password before saving
+//encrypt password before saving to DB
 UserSchema.pre("save", async function(next) {
 	if (!this.isModified("password")) {
 		return next()

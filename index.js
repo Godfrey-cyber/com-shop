@@ -11,6 +11,8 @@ import cors from "cors"
 import authRoute from "./routes/auth.js"
 import userRoutes from "./routes/usersRoutes.js"
 import productRoutes from "./routes/productsRoutes.js"
+import cartRoutes from "./routes/cartRoutes.js"
+import orderRoutes from "./routes/orderRoutes.js"
 
 
 const app = express()
@@ -31,6 +33,8 @@ app.use(express.json())
 app.use("/api/users", authRoute)
 app.use("/api/users", userRoutes)
 app.use("/api/products", productRoutes)
+app.use("/api/products", cartRoutes)
+app.use("/api/products", orderRoutes)
 app.listen(process.env.PORT || 5000, () => {
 	console.log("Backend is running")
 })

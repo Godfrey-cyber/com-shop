@@ -66,9 +66,18 @@ export const updateProduct = asyncHandler(async(req, res) => {
 // DELETE PRODUCT
 export const deleteProduct = asyncHandler(async(req, res) => {
 	try {
-        await Product.findByIdAndDelete(req.params.id)
+        await Product.findByIdAndDelete(req.paarams.id)
         res.status(200).json({msg: "Product has been deleted"})
     } catch (error) {
         res.status(500).json({msg: error})
+    }
+})
+// GET PRODUCTS BY VENDOR
+export const getByVendor = asyncHandler(async(req, res) => {
+    try {
+        const products = await Product.find({ userId: req.user._id })
+        res.status(200).json({ data: products })
+    } catch (err) {
+        res.status(400).json({message: err})
     }
 })

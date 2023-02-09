@@ -9,6 +9,7 @@ const ProductSchema = new mongoose.Schema({
 	// subcategory: { type: String, required: true },
 	quantity: { type: Number, required: true },
 	price: { type: Number, required: true },
+	discount: { type: Number, default: 0 },
 	userId: { type: mongoose.Schema.ObjectId, ref: "User", required: [true, "A product must belong to a user"] }
 }, { timestamps: true }, { autoIndex: false })
 export default mongoose.model('Product', ProductSchema);

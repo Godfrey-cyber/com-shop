@@ -110,8 +110,8 @@ export const logoutUser = asyncHandler(async(req, res) => {
 export const getUser = asyncHandler(async(req, res) => {
 	const user = await User.findById(req.user._id)
 	if (user) {
-        const {_id, username, bio, image, email, phone} = user
-        res.status(200).json({ data: {_id, username, bio, image, email, phone} })
+        const {_id, username, bio, image, email, phone, vendorName} = user
+        res.status(200).json({ data: {_id, username, bio, image, email, phone, vendorName} })
     } else {
         res.status(400)
         throw new Error("User not found")
@@ -119,7 +119,7 @@ export const getUser = asyncHandler(async(req, res) => {
 })
 // GET ALL USERS 
 export const getAllUsers = asyncHandler(async(req, res) => {
-	const users = req.query.new ? await Users.find().sort({ createdAt: -1} ).limit(5) : await User.find()
+	const users = req.query.new ? await Users.find().sort({ createdAt: -1} ).limit(5).select("-password") : await User.find().select("-password")
 	if (users) {
 		res.status(200).json({data: users})
 	} else {
@@ -231,7 +231,7 @@ export const resetPassword = asyncHandler(async(req, res) => {
      const user = await User.findOne({ _id: userToken.userId})
      user.password = password
      await user.save()
-     res.status(200).json({message: "Password reset sucessful please login"})
+     res.status(200).json({message: "Password reset successful, please login"})
 })
 
 // GET USER STATS
