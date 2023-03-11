@@ -7,7 +7,7 @@ const newProduct = new Product({
     title: req.body.title,
     desc: req.body.desc,
     brand: req.body.brand,
-    quantity: req.body.quantity,
+    inStock: req.body.inStock,
     category: req.body.category,
     subcategory: req.body.subcategory,
     price: req.body.price,
@@ -66,7 +66,7 @@ export const updateProduct = asyncHandler(async(req, res) => {
 // DELETE PRODUCT
 export const deleteProduct = asyncHandler(async(req, res) => {
 	try {
-        await Product.findByIdAndDelete(req.paarams.id)
+        await Product.findByIdAndDelete(req.params.id)
         res.status(200).json({msg: "Product has been deleted"})
     } catch (error) {
         res.status(500).json({msg: error})
@@ -81,3 +81,21 @@ export const getByVendor = asyncHandler(async(req, res) => {
         res.status(400).json({message: err})
     }
 })
+// GET PRODUCTS BY CATEGORY
+export const getByCategory = asyncHandler(async(req, res) => {
+    try {
+        const products = await Product.find({ catId: req.params.id })
+        res.status(200).json({ data: products })
+    } catch (err) {
+        res.status(400).json({message: err})
+    }
+})
+// GET PRODUCTS BY CATEGORY AND SUBCATEGORY
+// export const getByCategory = asyncHandler(async(req, res) => {
+//     try {
+//         const products = await Product.find({ catId: req.params.id })
+//         res.status(200).json({ data: products })
+//     } catch (err) {
+//         res.status(400).json({message: err})
+//     }
+// })

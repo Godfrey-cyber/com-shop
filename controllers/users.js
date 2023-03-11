@@ -76,7 +76,8 @@ export const loginUser = asyncHandler(async(req, res) => {
        })
        if (user && ifPasswordIsCorrect) {
        	const {_id, username, bio, image, email, phone} = user
-       	res.status(200).json({data: {_id, username, bio, image, email, phone, token}})
+        const userdata = {_id, username, bio, image, email, phone, token}
+       	res.status(200).json(userdata)
        } else {
         res.status(400)
         throw new Error("Invalid email or password!")

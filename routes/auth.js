@@ -1,5 +1,4 @@
 import express from "express"
-
 const router = express.Router()
 
 import { registerUser, loginUser, logoutUser } from "../controllers/users.js"

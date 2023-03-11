@@ -29,6 +29,9 @@ export default mongoose.model('Order', OrderSchema);
 // tual Christian leaders.
 // Currently the primary criteria for admission to seminaries is
 // academic achievement not a clear call, mature character, and gifting.
+// giftedness for service, and empow-
+// erment for Kingdom mission are concentric circles that God desires
+// for His Church.
 
 // We have much to be thankful for from the scientific method; because of it
 // many foolish and hurtful ideas have been discarded (for example,
