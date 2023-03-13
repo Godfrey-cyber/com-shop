@@ -10,23 +10,29 @@ const ProductSchema = new mongoose.Schema({
 	photo: { 
 		type: String,
 		default: "https://sky.garden/assets/loading-spinners.svg"
-	 },
+	},
 	brand: { 
 		type: String, default: "Generic"
-	 },
-	 review: { 
+	},
+	model: { 
+		type: String, default: "Generic"
+	},
+	condition: {
+		type: String, required: true
+	},
+	review: { 
 		type: mongoose.Schema.ObjectId, 
 		ref: "Review"
-	 },
+	},
 	inStock: { 
 		type: Number, required: [true, "A product must have a quantity"]
-	 },
+	},
 	price: { 
 		type: Number, required: true
-	 },
+	},
 	discount: { 
 		type: Number, default: 0
-	 },
+	},
 	userId: { 
 		type: mongoose.Schema.ObjectId, ref: "User", 
 		required: [true, "A product must belong to a user"] 
