@@ -43,8 +43,8 @@ export const chargeClient = async(req, res) => {
 		},
 		line_items: newItems,
 		mode: "payment",
-		success_url: "http://localhost:3000/success",
-		cancel_url: "http://localhost:3000/cancel",
+		success_url: `${process.env.CLIENT_URL}/success`,
+		cancel_url: `${process.env.CLIENT_URL}/failure`,
 		metadata: {
 			email: email,
 			images: JSON.stringify(items.map(item => item.photo))
